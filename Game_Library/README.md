@@ -73,3 +73,12 @@ export default defineConfig([
   },
 ])
 ```
+Project Team Section: 
+Team Name: Two Stackers 
+Team Members:
+- Sukhtaj Singh Dhillon
+- Beerdavinder Singh
+Project General Desciption:
+- As a user, I want to view my game library so I can see all the games I own.
+- As a user, I want to track my progress in games so I know what I have completed.
+- As a user, I want to see recently played games so I can continue where I left off.
