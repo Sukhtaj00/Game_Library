@@ -1,3 +1,5 @@
+import "./game_collection.css";
+
 function GameCollection() {
     const games = [
         { id: "1", title: "God of War", platform: "PlayStation", status: "Completed" },
