@@ -1,3 +1,4 @@
+//imported css
 import "./game_collection.css";
 
 function GameCollection() {
