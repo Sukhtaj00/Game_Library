@@ -1,0 +1,30 @@
+.game-progress {
+    padding: 1.5rem;
+    background-color: #0E131F; 
+    color: #8B939C; 
+    font-family: "Exo 2", sans-serif;
+    font-size: 16px;
+}
+ 
+.game-progress h2 {
+    font-family: "Orbitron", sans-serif;
+    font-size: 24px;
+    color: #FF0035;
+    margin-bottom: 1rem;
+}
+ 
+.game-progress ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+ 
+.game-progress li {
+    background-color: #59546C;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+    color: #8B939C; 
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
