@@ -1,24 +1,36 @@
-import GameCollection from "./components/game_collection/game_collection";
-import GameProgress from "./components/game_progress/game_progress";
+import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import Layout from "./components/layout/layout";
+import GameCollectionPage from "./components/pages/game_collection_pages";
+import GameProgressPage from "./components/pages/game_progress_pages";
 
 function App() {
+  const [totalGames, setTotalGames] = useState(4);
+
   return (
-    <div className="app">
-      <header>
-        <h1>Game Library Tracker</h1>
-      </header>
-
-      <main>
-        <GameCollection />
-        <GameProgress />
-      </main>
-
-      <footer>
-        <p>Project by: Sukhtaj and Beerdavinder</p>
-      </footer>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route
+          path="collection"
+          element={
+            <GameCollectionPage
+              totalGames={totalGames}
+              setTotalGames={setTotalGames}
+            />
+          }
+        />
+        <Route
+          path="progress"
+          element={
+            <GameProgressPage
+              totalGames={totalGames}
+              setTotalGames={setTotalGames}
+            />
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
-
