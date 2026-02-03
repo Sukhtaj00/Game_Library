@@ -1,0 +1,27 @@
+nav {
+  background-color: #38405F; /* Twilight Indigo */
+  padding: 12px 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+ 
+nav a {
+  color: #F5F5F5;
+  text-decoration: none;
+  font-family: "Exo 2", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+ 
+nav a:hover {
+  color: #FF0035; /* Strawberry Red */
+  text-decoration: underline;
+}
+ 
+nav a.active {
+  color: #FF0035;
+  font-weight: 600;
+  border-bottom: 2px solid #FF0035;
+}
