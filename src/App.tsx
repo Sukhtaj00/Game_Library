@@ -1,24 +1,49 @@
-import GameCollection from "./components/game_collection/game_collection";
-import GameProgress from "./components/game_progress/game_progress";
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/layout/layout";
+import GameCollectionPage from "./components/pages/game_collection_pages";
+import GameProgressPage from "./components/pages/game_progress_pages";
+import "./App.css"
+
+export type Game = {
+  title: string;
+  completion: number;
+};
 
 function App() {
+  const [games, setGames] = useState<Game[]>([
+    { title: "God of War", completion: 100 },
+    { title: "Halo Infinite", completion: 60 },
+  ]);
+
+  const totalGames = games.length;
+
   return (
-    <div className="app">
-      <header>
-        <h1>Game Library Tracker</h1>
-      </header>
-
-      <main>
-        <GameCollection />
-        <GameProgress />
-      </main>
-
-      <footer>
-        <p>Project by: Sukhtaj and Beerdavinder</p>
-      </footer>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route
+          path="collection"
+          element={
+            <GameCollectionPage
+              games={games}
+              setGames={setGames}
+              totalGames={totalGames}
+            />
+          }
+        />
+        <Route
+          path="progress"
+          element={
+            <GameProgressPage
+              games={games}
+              setGames={setGames}
+              totalGames={totalGames}
+            />
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
-
