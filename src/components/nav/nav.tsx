@@ -1,6 +1,4 @@
-//
-
-
+import "./nav.css"
 import { NavLink } from "react-router-dom";
  
 function Nav() {
