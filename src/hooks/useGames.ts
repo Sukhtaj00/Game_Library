@@ -1,18 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Game } from "../types/Game";
 import { gameService } from "../services/gameService";
-
 
 export function useGames() {
   const [games, setGames] = useState<Game[]>([]);
 
-  useEffect(() => {
-    setGames(gameService.getGames());
-  }, []);
-
   function refresh() {
     setGames(gameService.getGames());
   }
+
+  useEffect(() => {
+    refresh();
+  }, []);
 
   function addGame(title: string) {
     gameService.addGame(title);
