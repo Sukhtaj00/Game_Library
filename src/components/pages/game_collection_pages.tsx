@@ -1,32 +1,30 @@
-import React, { useState } from "react";
-import type { Game } from "../../App";
-import GameCollection from "../game_collection/game_collection";
+import { useState } from "react";
+import { useGames } from "../../hooks/useGames";
 
-type Props = {
-  games: Game[];
-  setGames: React.Dispatch<React.SetStateAction<Game[]>>;
-  totalGames: number;
-};
+/**
+ * GameCollectionPage
+ *
+ * This component uses the hook-service-repository architecture.
+ * It does not receive props or manage shared state directly.
+ * All data is accessed through the useGames hook.
+ */
 
-function GameCollectionPage({ games, setGames, totalGames }: Props) {
+function GameCollectionPage() {
+  const { games, addGame, removeGame } = useGames();
   const [newGame, setNewGame] = useState("");
 
   function handleAddGame(e: React.FormEvent) {
     e.preventDefault();
-    if (newGame.trim() === "") return;
+    if (!newGame.trim()) return;
 
-    setGames([...games, { title: newGame, completion: 0 }]);
+    addGame(newGame);
     setNewGame("");
-  }
-
-  function handleRemoveGame(index: number) {
-    setGames(games.filter((_, i) => i !== index));
   }
 
   return (
     <>
       <h2>Game Collection</h2>
-      <p>Total Games: {totalGames}</p>
+      <p>Total Games: {games.length}</p>
 
       <form onSubmit={handleAddGame}>
         <input
@@ -39,15 +37,15 @@ function GameCollectionPage({ games, setGames, totalGames }: Props) {
       </form>
 
       <ul>
-        {games.map((game, index) => (
-          <li key={index}>
+        {games.map((game) => (
+          <li key={game.id}>
             {game.title} ({game.completion}%)
-            <button onClick={() => handleRemoveGame(index)}>Remove</button>
+            <button onClick={() => removeGame(game.id)}>
+              Remove
+            </button>
           </li>
         ))}
       </ul>
-
-      <GameCollection />
     </>
   );
 }
