@@ -4,7 +4,12 @@ import gameRoutes from "./routes/gameRoutes";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Vite frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
