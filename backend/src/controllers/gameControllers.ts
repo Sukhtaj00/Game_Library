@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import prisma from "../prisma";
+import { gameService } from "../services/gameService";
 
 // Get all games
 export const getGames = async (req: Request, res: Response) => {
-  const games = await prisma.game.findMany();
+  const games = await gameService.getAllGames();
   res.json(games);
 };
 
@@ -11,9 +11,7 @@ export const getGames = async (req: Request, res: Response) => {
 export const getGameById = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
-  const game = await prisma.game.findUnique({
-    where: { id },
-  });
+  const game = await gameService.getGameById(id);
 
   if (!game) {
     return res.status(404).json({ message: "Game not found" });
@@ -26,10 +24,7 @@ export const getGameById = async (req: Request, res: Response) => {
 export const createGame = async (req: Request, res: Response) => {
   const { title, completion } = req.body;
 
-  const newGame = await prisma.game.create({
-    data: { title, completion },
-  });
-
+  const newGame = await gameService.createGame(title, completion);
   res.status(201).json(newGame);
 };
 
@@ -39,11 +34,11 @@ export const updateGame = async (req: Request, res: Response) => {
   const { title, completion } = req.body;
 
   try {
-    const updatedGame = await prisma.game.update({
-      where: { id },
-      data: { title, completion },
-    });
-
+    const updatedGame = await gameService.updateGame(
+      id,
+      title,
+      completion
+    );
     res.json(updatedGame);
   } catch {
     res.status(404).json({ message: "Game not found" });
@@ -55,10 +50,7 @@ export const deleteGame = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
   try {
-    await prisma.game.delete({
-      where: { id },
-    });
-
+    await gameService.deleteGame(id);
     res.json({ message: "Game deleted" });
   } catch {
     res.status(404).json({ message: "Game not found" });
