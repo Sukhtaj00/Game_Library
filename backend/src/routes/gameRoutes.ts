@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   getGames,
   getGameById,
@@ -6,16 +6,17 @@ import {
   updateGame,
   deleteGame,
 } from "../controllers/gameControllers";
-import { validateGame } from "../middleware/gameValidation";
+import {
+  validateCreateGame,
+  validateUpdateGame,
+} from "../middleware/gameValidation";
 
-const router = express.Router();
+const router = Router();
 
 router.get("/", getGames);
 router.get("/:id", getGameById);
-
-router.post("/", validateGame, createGame);
-router.put("/:id", validateGame, updateGame);
-
+router.post("/", validateCreateGame, createGame);
+router.put("/:id", validateUpdateGame, updateGame);
 router.delete("/:id", deleteGame);
 
 export default router;

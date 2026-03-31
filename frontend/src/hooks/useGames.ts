@@ -1,31 +1,39 @@
 import { useEffect, useState } from "react";
 import type { Game } from "../types/Game";
-import { gameService } from "../services/gameService";
+import { gameRepository } from "../repositories/gameRepository";
 
 export function useGames() {
   const [games, setGames] = useState<Game[]>([]);
 
-  function refresh() {
-    setGames(gameService.getGames());
+  async function refresh() {
+    const data = await gameRepository.getAll();
+    setGames(data);
   }
 
   useEffect(() => {
     refresh();
   }, []);
 
-  function addGame(title: string) {
-    gameService.addGame(title);
-    refresh();
+  async function addGame(title: string) {
+    await gameRepository.create(title);
+    await refresh();
   }
 
-  function removeGame(id: string) {
-    gameService.removeGame(id);
-    refresh();
+  async function removeGame(id: number) {
+    await gameRepository.delete(id);
+    await refresh();
   }
 
-  function updateCompletion(id: string, value: number) {
-    gameService.updateCompletion(id, value);
-    refresh();
+  async function updateCompletion(id: number, value: number) {
+    const existing = games.find((g) => g.id === id);
+    if (!existing) return;
+
+    await gameRepository.update({
+      ...existing,
+      completion: value,
+    });
+
+    await refresh();
   }
 
   return {
