@@ -18,7 +18,7 @@ export const gameRepository = {
     );
   },
 
-  delete(id: string): void {
+  delete(id: number): void {
     games = games.filter((g) => g.id !== id);
   },
 };

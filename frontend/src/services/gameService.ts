@@ -8,7 +8,7 @@ export const gameService = {
 
   addGame(title: string): void {
     const newGame: Game = {
-      id: Date.now().toString(),
+      id: Date.now(), 
       title,
       completion: 0,
     };
@@ -16,14 +16,14 @@ export const gameService = {
     gameRepository.create(newGame);
   },
 
-  removeGame(id: string): void {
+  removeGame(id: number): void { 
     gameRepository.delete(id);
   },
 
-  updateCompletion(id: string, value: number): void {
+  updateCompletion(id: number, value: number): void { 
     if (value < 0 || value > 100) return;
 
-    const game = gameRepository.getAll().find(g => g.id === id);
+    const game = gameRepository.getAll().find((g: Game) => g.id === id);
     if (!game) return;
 
     gameRepository.update({

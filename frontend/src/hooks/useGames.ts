@@ -18,12 +18,12 @@ export function useGames() {
     refresh();
   }
 
-  function removeGame(id: string) {
+  function removeGame(id: number) {
     gameService.removeGame(id);
     refresh();
   }
 
-  function updateCompletion(id: string, value: number) {
+  function updateCompletion(id: number, value: number) {
     gameService.updateCompletion(id, value);
     refresh();
   }
