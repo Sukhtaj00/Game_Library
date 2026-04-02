@@ -60,16 +60,7 @@ export const gameRepository = {
     return response.json();
   },
 
-  /**
-   * Delete a game by ID
-   */
-  async delete(id: number): Promise<void> {
-    const response = await fetch(`${BASE_URL}/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to delete game");
-    }
+  delete(id: number): void {
+    games = games.filter((g) => g.id !== id);
   },
 };
