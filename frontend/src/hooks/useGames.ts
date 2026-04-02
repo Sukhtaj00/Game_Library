@@ -19,21 +19,14 @@ export function useGames() {
     await refresh();
   }
 
-  async function removeGame(id: number) {
-    await gameRepository.delete(id);
-    await refresh();
+  function removeGame(id: number) {
+    gameService.removeGame(id);
+    refresh();
   }
 
-  async function updateCompletion(id: number, value: number) {
-    const existing = games.find((g) => g.id === id);
-    if (!existing) return;
-
-    await gameRepository.update({
-      ...existing,
-      completion: value,
-    });
-
-    await refresh();
+  function updateCompletion(id: number, value: number) {
+    gameService.updateCompletion(id, value);
+    refresh();
   }
 
   return {
