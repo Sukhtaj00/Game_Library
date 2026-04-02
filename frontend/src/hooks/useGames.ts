@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import type { Game } from "../types/Game";
-import { gameService } from "../services/gameService";
+import { gameRepository } from "../repositories/gameRepository";
 
 export function useGames() {
   const [games, setGames] = useState<Game[]>([]);
 
-  function refresh() {
-    setGames(gameService.getGames());
+  async function refresh() {
+    const data = await gameRepository.getAll();
+    setGames(data);
   }
 
   useEffect(() => {
     refresh();
   }, []);
 
-  function addGame(title: string) {
-    gameService.addGame(title);
-    refresh();
+  async function addGame(title: string) {
+    await gameRepository.create(title);
+    await refresh();
   }
 
   function removeGame(id: number) {

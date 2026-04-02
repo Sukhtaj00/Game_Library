@@ -1,21 +1,36 @@
-import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
+import { Request, Response, NextFunction } from "express";
 
-const gameSchema = Joi.object({
-  title: Joi.string().min(1).required(),
-  completion: Joi.number().min(0).max(100).required(),
-});
+export const validateCreateGame = (req: Request, res: Response, next: NextFunction) => {
+  const schema = Joi.object({
+    title: Joi.string().min(1).required(),
+    completion: Joi.number().min(0).max(100).optional(),
+  });
 
-export const validateGame = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { error } = gameSchema.validate(req.body);
+  const { error } = schema.validate(req.body, { abortEarly: false });
 
   if (error) {
     return res.status(400).json({
-      message: error.details[0].message,
+      message: "Validation error",
+      details: error.details.map((d) => d.message),
+    });
+  }
+
+  next();
+};
+
+export const validateUpdateGame = (req: Request, res: Response, next: NextFunction) => {
+  const schema = Joi.object({
+    title: Joi.string().min(1).optional(),
+    completion: Joi.number().min(0).max(100).optional(),
+  }).or("title", "completion"); // At least one field must be provided
+
+  const { error } = schema.validate(req.body, { abortEarly: false });
+
+  if (error) {
+    return res.status(400).json({
+      message: "Validation error",
+      details: error.details.map((d) => d.message),
     });
   }
 
