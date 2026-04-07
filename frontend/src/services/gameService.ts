@@ -2,31 +2,27 @@ import { gameRepository } from "../repositories/gameRepository";
 import type { Game } from "../types/Game";
 
 export const gameService = {
-  getGames(): Game[] {
-    return gameRepository.getAll();
+  async getGames(): Promise<Game[]> {
+    return await gameRepository.getAll();
   },
 
-  addGame(title: string): void {
-    const newGame: Game = {
-      id: Date.now(), 
-      title,
-      completion: 0,
-    };
-
-    gameRepository.create(newGame);
+  async addGame(title: string): Promise<Game> {
+    return await gameRepository.create(title);
   },
 
-  removeGame(id: number): void { 
-    gameRepository.delete(id);
+  async removeGame(id: string): Promise<void> {
+    return await gameRepository.delete(id);
   },
 
-  updateCompletion(id: number, value: number): void { 
-    if (value < 0 || value > 100) return;
+  async updateCompletion(id: string, value: number): Promise<Game | null> {
+    if (value < 0 || value > 100) return null;
 
-    const game = gameRepository.getAll().find((g: Game) => g.id === id);
-    if (!game) return;
+    const games = await gameRepository.getAll();
+    const game = games.find(g => g.id === id);
 
-    gameRepository.update({
+    if (!game) return null;
+
+    return await gameRepository.update({
       ...game,
       completion: value,
     });
