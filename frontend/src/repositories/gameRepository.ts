@@ -63,7 +63,7 @@ export const gameRepository = {
   /**
    * Delete a game by ID
    */
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "DELETE",
     });
