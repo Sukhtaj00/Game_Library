@@ -17,8 +17,8 @@ export const gameService = {
   async updateCompletion(id: string, value: number): Promise<Game | null> {
     if (value < 0 || value > 100) return null;
 
-    const games = await gameRepository.getAll();
-    const game = games.find(g => g.id === id);
+    const games: Game[] = await gameRepository.getAll();
+    const game: Game | undefined = games.find((g: Game) => g.id === id);
 
     if (!game) return null;
 
