@@ -1,3 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+console.log("CLERK_SECRET_KEY:", process.env.CLERK_SECRET_KEY);
+
 import express from "express";
 import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
@@ -5,31 +10,31 @@ import gameRoutes from "./routes/gameRoutes";
 
 const app = express();
 
-// Clerk middleware (T.1 requirement)
-app.use(clerkMiddleware());
-
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
 app.use(express.json());
 
+// Clerk middleware
+app.use(clerkMiddleware());
+
+app.get("/test-auth", (req, res) => {
+  console.log("REQ.AUTH:", req.auth);
+  res.json({ auth: req.auth });
+});
+
+// Test route
 app.get("/", (req, res) => {
   res.json({ message: "Backend running successfully" });
 });
 
+// Game routes
 app.use("/games", gameRoutes);
 
-const PORT = 3000;
-
-// Only run app.listen in local development
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
-
-export default app;
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
+});
