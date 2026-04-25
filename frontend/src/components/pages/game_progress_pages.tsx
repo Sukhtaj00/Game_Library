@@ -1,11 +1,12 @@
 import { useGames } from "../../hooks/useGames";
+import { SignedIn } from "@clerk/clerk-react";
 
 /**
  * GameProgressPage
  *
- * This component uses the hook-service-repository architecture.
- * It retrieves shared data using the useGames hook.
- * Business logic is handled in the service layer.
+ * Uses hook-service-repository architecture.
+ * Guests can view progress.
+ * Logged-in users can edit and remove.
  */
 
 function GameProgressPage() {
@@ -20,19 +21,32 @@ function GameProgressPage() {
         {games.map((game) => (
           <li key={game.id}>
             <strong>{game.title}</strong>{" "}
-            <input
-              type="number"
-              min="0"
-              max="100"
-              value={game.completion}
-              onChange={(e) =>
-                updateCompletion(game.id, Number(e.target.value))
-              }
-            />{" "}
-            %
-            <button onClick={() => removeGame(game.id)}>
-              Remove
-            </button>
+
+            {/* Show static value for guests */}
+            <span>{game.completion}%</span>
+
+            {/* Editable controls only for logged-in users */}
+            <SignedIn>
+              <>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={game.completion}
+                  onChange={(e) =>
+                    updateCompletion(game.id, Number(e.target.value))
+                  }
+                  style={{ marginLeft: "10px", width: "60px" }}
+                />
+                {" % "}
+                <button
+                  onClick={() => removeGame(game.id)}
+                  style={{ marginLeft: "10px" }}
+                >
+                  Remove
+                </button>
+              </>
+            </SignedIn>
           </li>
         ))}
       </ul>
