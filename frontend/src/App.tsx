@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { SignIn } from "@clerk/clerk-react";
 import Layout from "./components/layout/layout";
 import GameCollectionPage from "./components/pages/game_collection_pages";
 import GameProgressPage from "./components/pages/game_progress_pages";
@@ -11,6 +12,9 @@ function App() {
         <Route path="collection" element={<GameCollectionPage />} />
         <Route path="progress" element={<GameProgressPage />} />
       </Route>
+
+      {/* Clerk Auth Route */}
+      <Route path="/sign-in/*" element={<SignIn />} />
     </Routes>
   );
 }
