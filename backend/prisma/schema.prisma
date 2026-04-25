@@ -7,8 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  clerkId   String   @unique
+  email     String?
+  games     Game[]
+  createdAt DateTime @default(now())
+}
+
 model Game {
-  id         Int    @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   title      String
   completion Int
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }
