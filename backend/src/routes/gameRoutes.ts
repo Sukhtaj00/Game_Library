@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { requireAuth } from "@clerk/express";
 import {
   getGames,
   getGameById,
@@ -6,17 +7,13 @@ import {
   updateGame,
   deleteGame,
 } from "../controllers/gameControllers";
-import {
-  validateCreateGame,
-  validateUpdateGame,
-} from "../middleware/gameValidation";
 
 const router = Router();
 
 router.get("/", getGames);
-router.get("/:id", getGameById);
-router.post("/", validateCreateGame, createGame);
-router.put("/:id", validateUpdateGame, updateGame);
-router.delete("/:id", deleteGame);
+router.get("/:id", requireAuth(), getGameById);
+router.post("/", requireAuth(), createGame);
+router.put("/:id", requireAuth(), updateGame);
+router.delete("/:id", requireAuth(), deleteGame);
 
 export default router;
